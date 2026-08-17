@@ -15,6 +15,8 @@ import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.time.LocalDate;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.function.Function;
 
 
@@ -40,15 +42,21 @@ public class JwtUtil {
         return (extractClaim(token, Claims::getExpiration)   .before(new Date()));
     }
 
+    public Long extractUserId(String token){
+        return (extractClaim(token, claims -> claims.get("userId", Long.class)));
+    }
+
     public boolean isValidToken(String token, String username){
         return (extractUsername(token).equals(username) && !isTokenExpired(token));
     }
 
-    public String generateToken(String username){
+    public String generateToken(String username, Long userId){
         Date now = new Date();
         Date expiry = new Date(now.getTime() + expiration);
-
+        Map<String, Object> claims = new HashMap<>();
+        claims.put("userId", userId);
         return Jwts.builder()
+                .setClaims(claims)
                 .setSubject(username)
                 .setExpiration(expiry)
                 .signWith(key())

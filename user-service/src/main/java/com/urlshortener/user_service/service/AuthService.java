@@ -30,7 +30,7 @@ public class AuthService {
             throw new IllegalArgumentException("Incorrect Username or Password");
         }
 
-        String token = jwtUtil.generateToken(request.getUsername());
+        String token = jwtUtil.generateToken(request.getUsername(), user.getId());
         return new AuthResponse(request.getUsername(), token);
     }
 
@@ -47,7 +47,7 @@ public class AuthService {
 
         userRepository.save(user);
 
-        String token = jwtUtil.generateToken(user.getUsername());
+        String token = jwtUtil.generateToken(user.getUsername(), user.getId());
         return new AuthResponse(user.getUsername(), token);
     }
 }

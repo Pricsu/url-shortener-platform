@@ -1,6 +1,5 @@
-package com.urlshortener.user_service.security;
+package com.urlshortener.link_service.security;
 
-import com.urlshortener.user_service.repository.UserRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -11,14 +10,11 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
-import java.util.List;
-
 
 @Component
 public class JwtAuthFilter extends OncePerRequestFilter {
 
     private JwtUtil jwtUtil;
-
 
     public JwtAuthFilter(JwtUtil jwtUtil) {
         this.jwtUtil = jwtUtil;
@@ -29,22 +25,23 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         String header = request.getHeader("Authorization");
 
         if (header == null || !header.startsWith("Bearer ")){
-            filterChain.doFilter(request,response);
+            filterChain.doFilter(request, response);
             return;
         }
 
         String token = header.substring(7);
+
         try {
             String username = jwtUtil.extractUsername(token);
-            Long ownerId = jwtUtil.extractUserId(token);
-            if (username != null && SecurityContextHolder.getContext().getAuthentication() == null){
-                if (jwtUtil.isValidToken(token, username)){
+            Long userId = jwtUtil.extractUserId(token);
 
-//                    initialize principal object
-                    UserPrincipal principal = new UserPrincipal(username, ownerId);
-//                    creates standard Authentification object
+            if (username != null && SecurityContextHolder.getContext().getAuthentication() == null){
+                if (jwtUtil.isTokenValid(token, username)){
+
+                    UserPrincipal principal = new UserPrincipal(username, userId);
+
                     UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(principal, null, java.util.List.of());
-//                   register the user with the token
+
                     SecurityContextHolder.getContext().setAuthentication(authToken);
                 }
             }
@@ -52,9 +49,6 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
         }
 
-
         filterChain.doFilter(request, response);
     }
-
-
 }

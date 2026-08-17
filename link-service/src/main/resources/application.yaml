@@ -1,0 +1,17 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5434/linkdb
+    username: linkuser
+    password: linkpassword
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+app:
+  jwt:
+    secret: change-this-to-a-long-random-secret-in-production-min-32-chars
+    expiration-ms: 86400000
+
+server:
+  port: 8082
