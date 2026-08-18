@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: redirect_service
+
+server:
+  port: 8083
+
+app:
+  link-service:
+    base-url: http://localhost:8082

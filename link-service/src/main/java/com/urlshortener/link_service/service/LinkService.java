@@ -2,6 +2,7 @@ package com.urlshortener.link_service.service;
 
 import com.urlshortener.link_service.dto.LinkRequest;
 import com.urlshortener.link_service.dto.LinkResponse;
+import com.urlshortener.link_service.dto.UrlResponse;
 import com.urlshortener.link_service.entity.Link;
 import com.urlshortener.link_service.repository.LinkRepository;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -70,6 +71,12 @@ public class LinkService {
         }
     }
 
+    public UrlResponse getOriginalUrl(String shortCode){
+        Link link = linkRepository.findByShortCode(shortCode)
+                .orElseThrow(() -> new IllegalArgumentException("Link not found"));
 
+        return UrlResponse.fromEntity(link);
+
+    }
 
 }

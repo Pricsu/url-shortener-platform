@@ -2,7 +2,9 @@ package com.urlshortener.link_service.controller;
 
 import com.urlshortener.link_service.dto.LinkRequest;
 import com.urlshortener.link_service.dto.LinkResponse;
+import com.urlshortener.link_service.dto.UrlResponse;
 import com.urlshortener.link_service.service.LinkService;
+import jakarta.servlet.ServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 
@@ -33,6 +35,11 @@ public class LinkController {
     public ResponseEntity<Void> delete(@PathVariable Long id){
         linkService.deleteLink(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/internal/links/{shortCode}")
+    public UrlResponse getOriginalUrl(@PathVariable String shortCode){
+        return linkService.getOriginalUrl(shortCode);
     }
 
 }
