@@ -6,16 +6,18 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="analytics-service" />
         <module name="link-service" />
-        <module name="redirect_service" />
+        <module name="redirect-service" />
         <module name="user-service" />
       </profile>
     </annotationProcessing>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="analytics-service" options="-parameters" />
       <module name="link-service" options="-parameters" />
-      <module name="redirect_service" options="-parameters" />
+      <module name="redirect-service" options="-parameters" />
       <module name="user-service" options="-parameters" />
     </option>
   </component>

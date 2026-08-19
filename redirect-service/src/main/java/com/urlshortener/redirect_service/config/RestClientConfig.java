@@ -10,12 +10,22 @@ public class RestClientConfig {
 
 //  We don't use hardcoded urls
     @Value("${app.link-service.base-url}")
-    private String baseUrl;
+    private String linkServiceUrl;
+
+    @Value("${app.analytic-service.base-url}")
+    private String analyticServiceUrl;
 
     @Bean
-    public RestClient myRestClient(RestClient.Builder builder){
+    public RestClient linkRestClient(RestClient.Builder builder){
         return builder
-                .baseUrl(baseUrl)
+                .baseUrl(linkServiceUrl)
+                .build();
+    }
+
+    @Bean
+    public RestClient analyticRestClient(RestClient.Builder builder){
+        return builder
+                .baseUrl(analyticServiceUrl)
                 .build();
     }
 }

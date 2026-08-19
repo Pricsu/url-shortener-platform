@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: analytics_service
+
+  datasource:
+    url: jdbc:postgresql://localhost:5435/analyticdb
+    username: analyticuser
+    password: analyticpass
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+server:
+  port: 8084

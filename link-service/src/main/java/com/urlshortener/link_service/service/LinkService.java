@@ -51,7 +51,8 @@ public class LinkService {
         link.setOriginalUrl(request.getOriginalUrl());
         link.setOwnerId(extractUserId());
         link.setCreatedAt(LocalDateTime.now());
-
+        link.setClickCount(0L);
+        link.setClickLimit(request.getClickLimit());
         linkRepository.save(link);
         return LinkResponse.fromEntity(link);
     }
@@ -75,6 +76,12 @@ public class LinkService {
         Link link = linkRepository.findByShortCode(shortCode)
                 .orElseThrow(() -> new IllegalArgumentException("Link not found"));
 
+        if (link.getClickLimit() != null && link.getClickCount() >= link.getClickLimit()){
+            throw new IllegalArgumentException("Link click limit exceeded");
+        }
+        Long next = link.getClickCount() + 1;
+        link.setClickCount(next);
+        linkRepository.save(link);
         return UrlResponse.fromEntity(link);
 
     }

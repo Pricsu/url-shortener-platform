@@ -8,3 +8,5 @@ server:
 app:
   link-service:
     base-url: http://localhost:8082
+  analytic-service:
+    base-url: http://localhost:8084

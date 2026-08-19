@@ -21,6 +21,7 @@ public class Link {
     private LocalDateTime createdAt;
     private LocalDateTime expiresAt;
     private Long clickLimit;
+    private Long clickCount;
 
     public Long getId() {
         return id;
@@ -76,5 +77,13 @@ public class Link {
 
     public void setClickLimit(Long clickLimit) {
         this.clickLimit = clickLimit;
+    }
+
+    public Long getClickCount() {
+        return clickCount;
+    }
+
+    public void setClickCount(Long clickCount) {
+        this.clickCount = clickCount;
     }
 }
