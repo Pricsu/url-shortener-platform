@@ -1,6 +1,8 @@
 spring:
   application:
     name: redirect_service
+  kafka:
+    bootstrap-server: localhost:9092
 
 server:
   port: 8083

@@ -16,9 +16,10 @@ public class ClickService {
         this.clickRepository = clickRepository;
     }
 
-    public void recordClick(ClickRequest request){
+
+    public void recordClick(String shortCode){
         ClickEvent clickEvent = new ClickEvent();
-        clickEvent.setShortCode(request.getShortCode());
+        clickEvent.setShortCode(shortCode);
         clickEvent.setTimestamp(LocalDateTime.now());
         clickRepository.save(clickEvent);
 

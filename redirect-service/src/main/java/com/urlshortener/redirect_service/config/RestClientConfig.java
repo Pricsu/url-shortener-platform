@@ -22,10 +22,10 @@ public class RestClientConfig {
                 .build();
     }
 
-    @Bean
-    public RestClient analyticRestClient(RestClient.Builder builder){
-        return builder
-                .baseUrl(analyticServiceUrl)
-                .build();
-    }
+//    @Bean
+//    public RestClient analyticRestClient(RestClient.Builder builder){
+//        return builder
+//                .baseUrl(analyticServiceUrl)
+//                .build();
+//    }
 }
