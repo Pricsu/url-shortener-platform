@@ -1,6 +1,5 @@
 package com.urlshortener.analytics_service.service;
 
-import com.urlshortener.analytics_service.dto.ClickRequest;
 import com.urlshortener.analytics_service.entity.ClickEvent;
 import com.urlshortener.analytics_service.repository.ClickRepository;
 import org.springframework.stereotype.Service;
