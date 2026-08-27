@@ -14,6 +14,7 @@ public class UrlResponse {
         return new UrlResponse(link.getOriginalUrl());
     }
 
+
     public String getOriginalUrl() {
         return originalUrl;
     }
