@@ -2,7 +2,6 @@ package com.urlshortener.redirect_service;
 
 import com.urlshortener.redirect_service.dto.UrlResponse;
 import com.urlshortener.redirect_service.service.RedirectService;
-import io.micrometer.common.annotation.ValueExpressionResolver;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
