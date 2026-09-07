@@ -41,6 +41,7 @@ public class AuthService {
         }
 
         User user = new User();
+
         user.setUsername(request.getUsername());
         user.setPasswordHash(passwordEncoder.encode(request.getPasswordRaw()));
         user.setEmail(request.getEmail());
