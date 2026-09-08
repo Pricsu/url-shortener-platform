@@ -21,6 +21,5 @@ public class ClickService {
         clickEvent.setShortCode(shortCode);
         clickEvent.setTimestamp(LocalDateTime.now());
         clickRepository.save(clickEvent);
-
     }
 }

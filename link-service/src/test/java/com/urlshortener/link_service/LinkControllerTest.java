@@ -1,5 +1,6 @@
-package com.urlshortener.link_service.controller;
+package com.urlshortener.link_service;
 
+import com.urlshortener.link_service.controller.LinkController;
 import com.urlshortener.link_service.dto.LinkRequest;
 import com.urlshortener.link_service.dto.LinkResponse;
 import com.urlshortener.link_service.security.JwtUtil;
