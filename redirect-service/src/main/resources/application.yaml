@@ -2,13 +2,13 @@ spring:
   application:
     name: redirect_service
   kafka:
-    bootstrap-server: localhost:9092
+    bootstrap-servers: ${KAFKA_HOST:localhost}:${KAFKA_PORT:9092}
 
 server:
   port: 8083
 
 app:
   link-service:
-    base-url: http://localhost:8082
-  analytic-service:
-    base-url: http://localhost:8084
+    base-url: http://${LINK_HOST:localhost}:${LINK_PORT:8082}
+  analytics-service:
+    base-url: http://${ANALYTICS_HOST:localhost}:${ANALYTICS_PORT:8084}

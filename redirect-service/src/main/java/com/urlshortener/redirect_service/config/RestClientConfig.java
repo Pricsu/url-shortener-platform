@@ -12,7 +12,7 @@ public class RestClientConfig {
     @Value("${app.link-service.base-url}")
     private String linkServiceUrl;
 
-    @Value("${app.analytic-service.base-url}")
+    @Value("${app.analytics-service.base-url}")
     private String analyticServiceUrl;
 
     @Bean

@@ -1,0 +1,112 @@
+services:
+  user-db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: userdb
+      POSTGRES_USER: useruser
+      POSTGRES_PASSWORD: userpass
+    volumes:
+      - user-db-data:/var/lib/postgresql/data
+
+  link-db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: linkdb
+      POSTGRES_USER: linkuser
+      POSTGRES_PASSWORD: linkpass
+    volumes:
+      - link-db-data:/var/lib/postgresql/data
+
+  analytics-db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: analyticsdb
+      POSTGRES_USER: analyticsuser
+      POSTGRES_PASSWORD: analyticspass
+    volumes:
+      - analytics-db-data:/var/lib/postgresql/data
+
+  redis:
+    image: redis:latest
+    volumes:
+      - redis-data:/data
+
+  kafka:
+    image: apache/kafka:latest
+    environment:
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+      KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
+      KAFKA_NODE_ID: 1
+      KAFKA_PROCESS_ROLES: broker,controller
+      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092,CONTROLLER://0.0.0.0:9093
+      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT
+      KAFKA_CONTROLLER_QUORUM_VOTERS: 1@kafka:9093
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+
+  link-service:
+    build: ./link-service
+    ports:
+      - "8082:8082"
+    environment:
+      DB_HOST: link-db
+      DB_PORT: 5432
+      DB_NAME: linkdb
+      DB_USER: linkuser
+      DB_PASSWORD: linkpass
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      JWT_SECRET: change-this-to-a-long-random-secret-in-production-min-32-chars
+    depends_on:
+      - link-db
+      - redis
+
+  user-service:
+    build: ./user-service
+    ports:
+      - "8081:8081"
+    environment:
+      DB_HOST: user-db
+      DB_PORT: 5432
+      DB_NAME: userdb
+      DB_USER: useruser
+      DB_PASSWORD: userpass
+      JWT_SECRET: change-this-to-a-long-random-secret-in-production-min-32-chars
+    depends_on:
+      - user-db
+
+  redirect-service:
+    build: ./redirect-service
+    ports:
+      - "8083:8083"
+    environment:
+      LINK_HOST: link-service
+      LINK_PORT: 8082
+      ANALYTICS_HOST: analytics-service
+      ANALYTICS_PORT: 8084
+      KAFKA_HOST: kafka
+      KAFKA_PORT: 9092
+
+    depends_on:
+      - kafka
+
+  analytics-service:
+    build: ./analytics-service
+    ports:
+      - "8084:8084"
+    environment:
+      DB_HOST: analytics-db
+      DB_PORT: 5432
+      DB_NAME: analyticsdb
+      DB_USER: analyticsuser
+      DB_PASSWORD: analyticspass
+      KAFKA_HOST: kafka
+      KAFKA_PORT: 9092
+    depends_on:
+      - analytics-db
+
+volumes:
+  user-db-data:
+  link-db-data:
+  analytics-db-data:
+  redis-data:
